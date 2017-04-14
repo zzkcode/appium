@@ -23,7 +23,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
- * 主要对学生界面进行测试
+ * 主要在学生界面下进行测试
  * @author Administrator
  *
  */
@@ -72,7 +72,7 @@ public class LibTestStudent {
 		driver.quit();
 	}
 
-	//测试学生界面
+	//学生界面测试
 	@Test
 	public void testAllTabStudent() throws Throwable{
 		initStudent();
@@ -139,10 +139,10 @@ public class LibTestStudent {
 		driver.findElementById("rBtnStudent").click();
 		driver.findElement(By.name("登录")).click();
 		
-//		driver.findElement(By.name("馆藏查询")).click();		
-//		driver.findElement(By.name("借阅归还")).click();
-//		driver.findElement(By.name("个人信息")).click();
-//		driver.findElement(By.name("关于")).click();		
+		driver.findElement(By.name("馆藏查询")).click();		
+		driver.findElement(By.name("借阅归还")).click();
+		driver.findElement(By.name("个人信息")).click();
+		driver.findElement(By.name("关于")).click();		
 	}
 //	//备份所有学生
 //	@Test
@@ -158,24 +158,4 @@ public class LibTestStudent {
 //		driver.findElementById("button1").click();
 //		fail("Not yet implemented");
 //	}
-	
-	//依次点击显示各个Tab/Fragment
-	@Test
-	public void testAllTabAdmin() {
-		//先清除帐号、密码中的Text
-		driver.findElement(By.name("取消")).click();	
-		//EditText中的Text的T要大写（对应ClassName）！！
-		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
-		textFieldList.get(0).sendKeys("whut");
-		textFieldList.get(1).sendKeys("222");
-		driver.findElementById("rBtnAdmin").click();
-		driver.findElement(By.name("登录")).click();
-		
-		driver.findElement(By.name("请求管理")).click();
-		driver.findElement(By.name("图书管理")).click();
-		driver.findElement(By.name("学生管理")).click();
-		driver.findElement(By.name("管理全部")).click();
-		driver.findElement(By.name("个人信息")).click();
-		driver.findElement(By.name("关于")).click();
-	}
 }

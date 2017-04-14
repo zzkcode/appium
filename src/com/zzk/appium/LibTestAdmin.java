@@ -23,12 +23,12 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
- * 主要对学生界面进行测试
+ * 主要在管理员界面进行测试
  * @author Administrator
  *
  */
 
-public class LibTest {
+public class LibTestAdmin {
 //	private AppiumDriver<WebElement> driver;
 	//AppiumDriver和AndroidDriver的区别？!
 	private AndroidDriver<AndroidElement> driver;
@@ -72,41 +72,48 @@ public class LibTest {
 		driver.quit();
 	}
 
-	//测试学生界面
+	//管理员界面测试
 	@Test
-	public void testViewAllTabStudent() throws Throwable{
-		initStudent();
-		findBooks();
-		borrowOrReturn();
+	public void testAllTabAdmin() throws Throwable{
+		initAdmin();
+//		manBooks();
+		manStudents();
 	}
 	
-	private void borrowOrReturn() throws Throwable{
+	private void manStudents() throws InterruptedException {
 		// TODO Auto-generated method stub
-		driver.findElementByName("借阅").click();
+		driver.findElement(By.name("学生管理")).click();
+		String asserts = driver.getPageSource();
+		if(asserts.contains("郑志锟")){
+			driver.findElement(By.name("郑志锟")).click();
+			Thread.sleep(5000);
+		}else {
+			System.out.println("没有找到郑志锟");
+		}
 	}
-
+	
 	/**
 	 * 依次点击标题、作者和ISBN
 	 */
-	private void findBooks() throws Throwable{
+	private void manBooks() throws Throwable{
 		// TODO Auto-generated method stub
-		driver.findElement(By.name("馆藏查询")).click();
-		driver.findElementById("id_stuSpinnerSearch").click();
+		driver.findElement(By.name("图书管理")).click();
+		driver.findElementById("id_manSpinnerSearch").click();
 		
-		driver.findElement(By.name("标题")).click();
-		//点击输入框，确保光标在输入框中
-		driver.findElementById("id_stuSearchContent").click();
-		//clear()清除以前的输入，否则当前的输出有可能接着之前的？！
-		driver.findElementById("id_stuSearchContent").clear();
-		driver.findElementById("id_stuSearchContent").sendKeys("嫌疑人X的献身");
-		driver.findElementById("id_stuSearchBtn").click();
-		
-		driver.findElementById("id_stuSpinnerSearch").click();
 		driver.findElement(By.name("作者")).click();
-		driver.findElementById("id_stuSearchContent").click();
-		driver.findElementById("id_stuSearchContent").clear();
-		driver.findElementById("id_stuSearchContent").sendKeys("东野圭吾");
-		driver.findElementById("id_stuSearchBtn").click();
+		//点击输入框，确保光标在输入框中
+		driver.findElementById("id_manSearchContent").click();
+		//clear()清除以前的输入，否则当前的输出有可能接着之前的？！
+		driver.findElementById("id_manSearchContent").clear();
+		driver.findElementById("id_manSearchContent").sendKeys("东野圭吾");
+		driver.findElementById("id_manSearchBtn").click();
+		
+		driver.findElementById("id_manSpinnerSearch").click();
+		driver.findElement(By.name("作者")).click();
+		driver.findElementById("id_manSearchContent").click();
+		driver.findElementById("id_manSearchContent").clear();
+		driver.findElementById("id_manSearchContent").sendKeys("东野圭吾");
+		driver.findElementById("id_manSearchBtn").click();
 		MySwipe ms = new MySwipe(driver);
 		ms.swipe("up", 2000, 2);
 		Thread.sleep(1000);
@@ -114,12 +121,12 @@ public class LibTest {
 		ms.swipe("down", 2000, 2);
 		Thread.sleep(1000);
 		
-		driver.findElementById("id_stuSpinnerSearch").click();
-		driver.findElement(By.name("ISBN")).click();
-		driver.findElementById("id_stuSearchContent").click();
-		driver.findElementById("id_stuSearchContent").clear();
-		driver.findElementById("id_stuSearchContent").sendKeys("100");
-		driver.findElementById("id_stuSearchBtn").click();
+		driver.findElementById("id_manSpinnerSearch").click();
+		driver.findElement(By.name("借阅者")).click();
+		driver.findElementById("id_manSearchContent").click();
+		driver.findElementById("id_manSearchContent").clear();
+		driver.findElementById("id_manSearchContent").sendKeys("郑志锟");
+		driver.findElementById("id_manSearchBtn").click();
 		List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
 		String asserts = driver.getPageSource();
 		if(asserts.contains("共找到0条结果")){
@@ -130,19 +137,21 @@ public class LibTest {
 	}
 
 	//依次点击显示各个Tab/Fragment
-	public void initStudent(){
+	public void initAdmin(){
 		//先清除帐号、密码中的Text
 		driver.findElement(By.name("取消")).click();				
 		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
-		textFieldList.get(0).sendKeys("zzk");
-		textFieldList.get(1).sendKeys("111");
-		driver.findElementById("rBtnStudent").click();
+		textFieldList.get(0).sendKeys("whut");
+		textFieldList.get(1).sendKeys("222");
+		driver.findElementById("rBtnAdmin").click();
 		driver.findElement(By.name("登录")).click();
 		
-//		driver.findElement(By.name("馆藏查询")).click();		
-//		driver.findElement(By.name("借阅归还")).click();
-//		driver.findElement(By.name("个人信息")).click();
-//		driver.findElement(By.name("关于")).click();		
+		driver.findElement(By.name("请求管理")).click();
+		driver.findElement(By.name("图书管理")).click();
+		driver.findElement(By.name("学生管理")).click();
+		driver.findElement(By.name("管理全部")).click();
+		driver.findElement(By.name("个人信息")).click();
+		driver.findElement(By.name("关于")).click();	
 	}
 //	//备份所有学生
 //	@Test
@@ -158,24 +167,4 @@ public class LibTest {
 //		driver.findElementById("button1").click();
 //		fail("Not yet implemented");
 //	}
-	
-	//依次点击显示各个Tab/Fragment
-	@Test
-	public void testViewAllTabAdmin() {
-		//先清除帐号、密码中的Text
-		driver.findElement(By.name("取消")).click();	
-		//EditText中的Text的T要大写（对应ClassName）！！
-		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
-		textFieldList.get(0).sendKeys("whut");
-		textFieldList.get(1).sendKeys("222");
-		driver.findElementById("rBtnAdmin").click();
-		driver.findElement(By.name("登录")).click();
-		
-		driver.findElement(By.name("请求管理")).click();
-		driver.findElement(By.name("图书管理")).click();
-		driver.findElement(By.name("学生管理")).click();
-		driver.findElement(By.name("管理全部")).click();
-		driver.findElement(By.name("个人信息")).click();
-		driver.findElement(By.name("关于")).click();
-	}
 }
