@@ -23,9 +23,10 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
- * 主要在学生界面下进行测试
+ * 主要在学生界面下进行测试,并实现找书的功能
  * @author Administrator
- *
+ * 注意：Throwable会捕捉error，但Error是一种严重的问题，应用程序不应该捕捉它。
+ * 	   因此，应该用Exception！
  */
 
 public class LibTestStudent {
@@ -74,25 +75,20 @@ public class LibTestStudent {
 
 	//学生界面测试
 	@Test
-	public void testAllTabStudent() throws Throwable{
-		initStudent();
+	public void testAllTabStudent() throws Exception {
+		loginStudent();
+		viewStudentTabs();
 		findBooks();
-		borrowOrReturn();
 	}
 	
-	private void borrowOrReturn() throws Throwable{
-		// TODO Auto-generated method stub
-		driver.findElementByName("借阅").click();
-	}
-
 	/**
-	 * 依次点击标题、作者和ISBN
+	 * 依次点击标题、作者和ISBN,并相应查找书籍
 	 */
-	private void findBooks() throws Throwable{
+	private void findBooks() throws Exception {
 		// TODO Auto-generated method stub
 		driver.findElement(By.name("馆藏查询")).click();
-		driver.findElementById("id_stuSpinnerSearch").click();
 		
+		driver.findElementById("id_stuSpinnerSearch").click();	
 		driver.findElement(By.name("标题")).click();
 		//点击输入框，确保光标在输入框中
 		driver.findElementById("id_stuSearchContent").click();
@@ -100,6 +96,12 @@ public class LibTestStudent {
 		driver.findElementById("id_stuSearchContent").clear();
 		driver.findElementById("id_stuSearchContent").sendKeys("嫌疑人X的献身");
 		driver.findElementById("id_stuSearchBtn").click();
+		
+		/**
+		 * 注意两者是否有区别？？
+		 * driver.findElement(By.name(name));
+		 * driver.findElementByName(using);
+		 */
 		
 		driver.findElementById("id_stuSpinnerSearch").click();
 		driver.findElement(By.name("作者")).click();
@@ -120,17 +122,25 @@ public class LibTestStudent {
 		driver.findElementById("id_stuSearchContent").clear();
 		driver.findElementById("id_stuSearchContent").sendKeys("100");
 		driver.findElementById("id_stuSearchBtn").click();
+		
+		//进入学生界面的借书端
+		//获取的RecyclerView的元素只有一个？？
 		List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
+		System.out.println("recyclerview:"+elRecyclerList.size());
 		String asserts = driver.getPageSource();
 		if(asserts.contains("共找到0条结果")){
 			System.out.println("共找到0条结果");
 		}else{
-			elRecyclerList.get(0).click();
+//			System.out.println("Text:"+elRecyclerList.get(0).getId());
+			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();;
+			Thread.sleep(2000);
 		}
 	}
 
-	//依次点击显示各个Tab/Fragment
-	public void initStudent(){
+	/**
+	 * 学生登录
+	 */
+	private void loginStudent() {
 		//先清除帐号、密码中的Text
 		driver.findElement(By.name("取消")).click();				
 		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
@@ -138,24 +148,15 @@ public class LibTestStudent {
 		textFieldList.get(1).sendKeys("111");
 		driver.findElementById("rBtnStudent").click();
 		driver.findElement(By.name("登录")).click();
-		
+	}
+	
+	/**
+	 * 浏览学生主界面所有标签，务必在刚登录管理员界面下执行（不要单独执行）
+	 */
+	private void viewStudentTabs() {
 		driver.findElement(By.name("馆藏查询")).click();		
 		driver.findElement(By.name("借阅归还")).click();
 		driver.findElement(By.name("个人信息")).click();
 		driver.findElement(By.name("关于")).click();		
 	}
-//	//备份所有学生
-//	@Test
-//	public void testBackupAllStudent() {
-//		driver.findElement(By.name("取消")).click();				
-//		List<WebElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
-//		textFieldList.get(0).sendKeys("whut");
-//		textFieldList.get(1).sendKeys("222");
-//	
-//		driver.findElement(By.name("管理员")).click();
-//		driver.findElement(By.name("登录")).click();
-//		driver.findElement(By.name("管理全部"))click();
-//		driver.findElementById("button1").click();
-//		fail("Not yet implemented");
-//	}
 }

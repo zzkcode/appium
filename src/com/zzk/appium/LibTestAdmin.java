@@ -74,13 +74,18 @@ public class LibTestAdmin {
 
 	//管理员界面测试
 	@Test
-	public void testAllTabAdmin() throws Throwable{
-		initAdmin();
-//		manBooks();
+	public void testAllTabAdmin() throws Exception {
+		loginAdmin();
+		viewAdminTabs();
+		manBooks();
 		manStudents();
 	}
 	
-	private void manStudents() throws InterruptedException {
+	/**
+	 * 管理学生界面下，点击学生“郑志锟”
+	 * @throws Throwable
+	 */
+	private void manStudents() throws Exception {
 		// TODO Auto-generated method stub
 		driver.findElement(By.name("学生管理")).click();
 		String asserts = driver.getPageSource();
@@ -93,9 +98,10 @@ public class LibTestAdmin {
 	}
 	
 	/**
-	 * 依次点击标题、作者和ISBN
+	 * 管理图书界面下，依次点击标题、作者和ISBN
+	 * @throws Throwable
 	 */
-	private void manBooks() throws Throwable{
+	private void manBooks() throws Exception {
 		// TODO Auto-generated method stub
 		driver.findElement(By.name("图书管理")).click();
 		driver.findElementById("id_manSpinnerSearch").click();
@@ -132,12 +138,15 @@ public class LibTestAdmin {
 		if(asserts.contains("共找到0条结果")){
 			System.out.println("共找到0条结果");
 		}else{
-			elRecyclerList.get(0).click();
+			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
+			Thread.sleep(2000);
 		}
 	}
 
-	//依次点击显示各个Tab/Fragment
-	public void initAdmin(){
+	/**
+	 * 管理员登录
+	 */
+	private void loginAdmin(){
 		//先清除帐号、密码中的Text
 		driver.findElement(By.name("取消")).click();				
 		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
@@ -145,13 +154,18 @@ public class LibTestAdmin {
 		textFieldList.get(1).sendKeys("222");
 		driver.findElementById("rBtnAdmin").click();
 		driver.findElement(By.name("登录")).click();
-		
+	}
+	
+	/**
+	 * 浏览管理员主界面所有标签，务必在刚登录管理员界面下执行（不要单独执行）
+	 */
+	private void viewAdminTabs(){
 		driver.findElement(By.name("请求管理")).click();
 		driver.findElement(By.name("图书管理")).click();
 		driver.findElement(By.name("学生管理")).click();
 		driver.findElement(By.name("管理全部")).click();
 		driver.findElement(By.name("个人信息")).click();
-		driver.findElement(By.name("关于")).click();	
+		driver.findElement(By.name("关于")).click();		
 	}
 //	//备份所有学生
 //	@Test

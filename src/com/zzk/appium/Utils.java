@@ -1,13 +1,10 @@
 package com.zzk.appium;
 /**
- * 有关自动化测试操作的各种工具类
+ * 灏佽鍚勭鍔熻兘鏂规硶鐨勫伐鍏风被
  * @author Administrator
  *
  */
 public class Utils{
-	/**
-	 * Thread.sleep(time)不要调用
-	 */
 	public void ThreadSleep(long time) throws Throwable{
 		Thread.sleep(time);
 	}

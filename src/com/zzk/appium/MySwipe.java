@@ -1,6 +1,6 @@
 package com.zzk.appium;
 /**
- * »¬¶¯²Ù×÷£¨ÉÏÏÂ×óÓÒ£©
+ * å±å¹•æ»‘åŠ¨çš„å®ç°
  */
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
@@ -14,11 +14,11 @@ public class MySwipe {
 		this.x = driver.manage().window().getSize().width;
 		this.y = driver.manage().window().getSize().height;
 	}
-	
 	/**
-	 * »¬¶¯£¨ÒÔStringÈ·¶¨·½Ïò£©
-	 * @param direction »¬¶¯·½Ïò
-	 * @param duration »¬¶¯´ÎÊı
+	 * å››ä¸ªæ–¹å‘æ»‘åŠ¨çš„å®ç°
+	 * @param direction æ»‘åŠ¨æ–¹å‘
+	 * @param duration æ»‘åŠ¨æŒç»­æ—¶é—´ 
+	 * @param num æ»‘åŠ¨æ¬¡æ•°
 	 */
 	public void swipe(String direction,int duration,int num){
 		switch(direction.toLowerCase()){
