@@ -167,18 +167,4 @@ public class LibTestAdmin {
 		driver.findElement(By.name("个人信息")).click();
 		driver.findElement(By.name("关于")).click();		
 	}
-//	//备份所有学生
-//	@Test
-//	public void testBackupAllStudent() {
-//		driver.findElement(By.name("取消")).click();				
-//		List<WebElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
-//		textFieldList.get(0).sendKeys("whut");
-//		textFieldList.get(1).sendKeys("222");
-//	
-//		driver.findElement(By.name("管理员")).click();
-//		driver.findElement(By.name("登录")).click();
-//		driver.findElement(By.name("管理全部"))click();
-//		driver.findElementById("button1").click();
-//		fail("Not yet implemented");
-//	}
 }

@@ -17,6 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.android.AndroidKeyCode;
 
 /**
  * 实现学生借书和还书，管理员进行确认的功能
@@ -25,7 +26,7 @@ import io.appium.java_client.android.AndroidElement;
  * @author Administrator
  *
  */
-public class BorrowReturn {
+public class LibBorrowReturn {
 	private AndroidDriver<AndroidElement> driver;
 
 	@BeforeClass
@@ -68,11 +69,38 @@ public class BorrowReturn {
 	public void testBorrowReturnBooks() throws Exception {
 		loginStudent();
 		borrowBooks();
+		returnBooks();
 		
-//		loginAdmin();
-//		returnBooks();
+		return2Login();
 		
+		loginAdmin();
+		manRequests();
 //		fail("Not yet implemented");
+	}
+
+	private void manRequests() throws Exception {
+		// TODO Auto-generated method stub
+		driver.findElement(By.name("请求管理")).click();
+		while(!driver.getPageSource().contains("共有0本书等待管理员处理")) {
+			List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
+			System.out.println("recyclerview:"+elRecyclerList.size());
+			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
+			driver.findElement(By.name("确认")).click();
+			Thread.sleep(1000);
+		}
+		System.out.println("现在没有书需要管理员处理");
+	}
+
+	private void return2Login() throws Exception {
+		// TODO Auto-generated method stub
+		//注意获得的Activity不止名字，还带有所在的包名
+		while(!driver.currentActivity().equals(".login.LoginActivity")) {
+			//java_client3.0版本以后使用pressKeyCode方法，之前的版本使用sendKeyEvent方法
+			driver.pressKeyCode(AndroidKeyCode.BACK);
+			System.out.println("点击返回一下");
+		}
+		System.out.println("已经跳转到LoginActivity");
+		Thread.sleep(1000);
 	}
 
 	private void loginAdmin() {
@@ -97,9 +125,18 @@ public class BorrowReturn {
 		driver.findElement(By.name("登录")).click();
 	}
 
-	private void returnBooks() {
+	private void returnBooks() throws Exception {
 		// TODO Auto-generated method stub
+		driver.findElement(By.name("借阅归还")).click();
 		
+		String asserts = driver.getPageSource();
+		if(asserts.contains("已借阅")) {
+			List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
+			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
+			Thread.sleep(1000);	
+			driver.findElement(By.name("归还")).click();
+			Thread.sleep(1000);
+		}
 	}
 
 	private void borrowBooks() throws Exception {
@@ -122,9 +159,9 @@ public class BorrowReturn {
 			System.out.println("共找到0条结果");
 		}else{
 			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();;
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 			driver.findElement(By.name("借阅")).click();
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		}
 	}
 
