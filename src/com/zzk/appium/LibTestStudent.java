@@ -143,9 +143,9 @@ public class LibTestStudent {
 	private void loginStudent() {
 		//先清除帐号、密码中的Text
 		driver.findElement(By.name("取消")).click();				
-		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
-		textFieldList.get(0).sendKeys("zzk");
-		textFieldList.get(1).sendKeys("111");
+		List<AndroidElement> editTextList = driver.findElementsByClassName("android.widget.EditText"); 
+		editTextList.get(0).sendKeys("zzk");
+		editTextList.get(1).sendKeys("111");
 		driver.findElementById("rBtnStudent").click();
 		driver.findElement(By.name("登录")).click();
 	}

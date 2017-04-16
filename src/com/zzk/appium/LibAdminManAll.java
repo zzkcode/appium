@@ -17,6 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.android.AndroidKeyCode;
 /**
  * 此Test实现管理员管理全部的功能
  * @author Administrator
@@ -61,24 +62,133 @@ public class LibAdminManAll {
 		driver.quit();
 	}
 
+	/**
+	 * 管理全部中，备份删除恢复学生较为直观
+	 * @throws Exception
+	 */
 	@Test
-	public void testManAll() {
+	public void testManAll() throws Exception {
 		loginAdmin();
+
+		addStudent();
+		addBook();
 		
+		manAllStudents();
+		manAll();
+//		fail("Not yet implemented");
+	}
+
+	private void manAll() throws Exception {
+		// TODO Auto-generated method stub
+		//先确定在管理员主界面下才执行，但切记加break，以免进入死循环
+		while(driver.currentActivity().equals(".admin.AdminMainActivity")) {
+			driver.findElement(By.name("管理全部")).click();
+			driver.findElement(By.name("删除全部图书")).click();
+			driver.findElement(By.name("取消")).click();
+			driver.findElement(By.name("删除全部学生")).click();
+			driver.findElement(By.name("取消")).click();
+			driver.findElement(By.name("恢复全部图书")).click();
+			driver.findElement(By.name("取消")).click();
+			driver.findElement(By.name("恢复全部学生")).click();
+			driver.findElement(By.name("取消")).click();
+			driver.findElement(By.name("备份全部图书")).click();
+			driver.findElement(By.name("取消")).click();
+			driver.findElement(By.name("备份全部学生")).click();
+			driver.findElement(By.name("取消")).click();
+			Thread.sleep(1000);
+			break;
+		}
+	}
+
+	private void addBook() throws Exception {
+		// TODO Auto-generated method stub
+		driver.findElement(By.name("管理全部")).click();
+		driver.findElement(By.name("添加图书")).click();
+		Thread.sleep(500);
+		List<AndroidElement> editTextList = driver.findElementsByClassName("android.widget.EditText");
+		editTextList.get(0).sendKeys("看见");
+		editTextList.get(1).sendKeys("柴静");
+		editTextList.get(2).sendKeys("广西师范大学出版社");
+		editTextList.get(3).sendKeys("200");
+		editTextList.get(4).sendKeys("《看见》是知名记者和主持人柴静讲述央视十年历程的自传性作品。");
+		driver.findElement(By.name("保存")).click();
+		Thread.sleep(1000);
+		
+		driver.findElement(By.name("图书管理")).click();
+		driver.findElementById("id_manSpinnerSearch").click();		
+		driver.findElement(By.name("标题")).click();
+		//点击输入框，确保光标在输入框中
+		driver.findElementById("id_manSearchContent").click();
+		//clear()清除以前的输入，否则当前的输出有可能接着之前的？！
+		driver.findElementById("id_manSearchContent").clear();
+		driver.findElementById("id_manSearchContent").sendKeys("看见");
+		driver.findElementById("id_manSearchBtn").click();
+		List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
+		String asserts = driver.getPageSource();
+		if(asserts.contains("共找到0条结果")){
+			System.out.println("共找到0条结果");
+		}else{
+			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
+			Thread.sleep(2000);
+		}		
+	}
+
+	private void addStudent() throws Exception {
+		// TODO Auto-generated method stub
+		driver.findElement(By.name("管理全部")).click();
+		driver.findElement(By.name("添加学生")).click();
+		Thread.sleep(500);
+		List<AndroidElement> editTextList = driver.findElementsByClassName("android.widget.EditText");
+		editTextList.get(0).sendKeys("东野圭吾");
+		editTextList.get(1).sendKeys("dygw");
+		editTextList.get(2).sendKeys("111");
+		driver.findElement(By.name("保存")).click();
+		Thread.sleep(1000);
+		while(!driver.currentActivity().equals(".login.LoginActivity")) {
+			//java_client3.0版本以后使用pressKeyCode方法，之前的版本使用sendKeyEvent方法
+			driver.pressKeyCode(AndroidKeyCode.BACK);
+			System.out.println("点击返回一下");
+		}
+		loginStudent();
+		driver.findElement(By.name("个人信息")).click();
+		Thread.sleep(1000);
+	}
+
+	private void loginStudent() {
+		// TODO Auto-generated method stub
+		driver.findElement(By.name("取消")).click();				
+		List<AndroidElement> editTextList = driver.findElementsByClassName("android.widget.EditText"); 
+		editTextList.get(0).sendKeys("dygw");
+		editTextList.get(1).sendKeys("111");
+		driver.findElementById("rBtnStudent").click();
+		driver.findElement(By.name("登录")).click();
+	}
+
+	private void manAllStudents() throws Exception {
+		// TODO Auto-generated method stub
 		backupStudents();
 		// TODO 各种管理功能还未实现！！！
-//		deleteStudents();
-//		restoreStudents();
-//		fail("Not yet implemented");
+		driver.findElement(By.name("学生管理")).click();
+		deleteStudents();
+		driver.findElement(By.name("学生管理")).click();
+		Thread.sleep(500);
+		restoreStudents();
+		driver.findElement(By.name("学生管理")).click();
+		Thread.sleep(1000);
 	}
 
 	private void restoreStudents() {
 		// TODO Auto-generated method stub
+		driver.findElement(By.name("管理全部")).click();
+		driver.findElement(By.name("恢复全部学生")).click();
+		driver.findElement(By.name("确定")).click();			
 	}
 
 	private void deleteStudents() {
 		// TODO Auto-generated method stub
-		
+		driver.findElement(By.name("管理全部")).click();
+		driver.findElement(By.name("删除全部学生")).click();
+		driver.findElement(By.name("确定")).click();	
 	}
 
 	private void backupStudents() {

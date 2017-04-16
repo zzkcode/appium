@@ -77,15 +77,15 @@ public class LibTestAdmin {
 	public void testAllTabAdmin() throws Exception {
 		loginAdmin();
 		viewAdminTabs();
-		manBooks();
-		manStudents();
+		manBook();
+		manStudent();
 	}
 	
 	/**
 	 * 管理学生界面下，点击学生“郑志锟”
 	 * @throws Throwable
 	 */
-	private void manStudents() throws Exception {
+	private void manStudent() throws Exception {
 		// TODO Auto-generated method stub
 		driver.findElement(By.name("学生管理")).click();
 		String asserts = driver.getPageSource();
@@ -101,7 +101,7 @@ public class LibTestAdmin {
 	 * 管理图书界面下，依次点击标题、作者和ISBN
 	 * @throws Throwable
 	 */
-	private void manBooks() throws Exception {
+	private void manBook() throws Exception {
 		// TODO Auto-generated method stub
 		driver.findElement(By.name("图书管理")).click();
 		driver.findElementById("id_manSpinnerSearch").click();
