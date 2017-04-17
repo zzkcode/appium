@@ -23,7 +23,7 @@ import io.appium.java_client.android.AndroidKeyCode;
  * @author Administrator
  *
  */
-public class LibAdminManAll {
+public class LibTestAdminManAll {
 	private AndroidDriver<AndroidElement> driver;
 	
 	@BeforeClass

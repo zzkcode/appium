@@ -26,7 +26,7 @@ import io.appium.java_client.android.AndroidKeyCode;
  * @author Administrator
  *
  */
-public class LibBorrowReturn {
+public class LibTestBorrowReturn {
 	private AndroidDriver<AndroidElement> driver;
 
 	@BeforeClass
