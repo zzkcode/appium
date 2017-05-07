@@ -27,6 +27,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * @author Administrator
  * 注意：Throwable会捕捉error，但Error是一种严重的问题，应用程序不应该捕捉它。
  * 	   因此，应该用Exception！
+ * 118.03 seconds (17.5.7)
  */
 
 public class LibTestStudent {
@@ -142,7 +143,7 @@ public class LibTestStudent {
 	 */
 	private void loginStudent() {
 		//先清除帐号、密码中的Text
-		driver.findElement(By.name("取消")).click();				
+		driver.findElement(By.name("重置")).click();				
 		List<AndroidElement> editTextList = driver.findElementsByClassName("android.widget.EditText"); 
 		editTextList.get(0).sendKeys("zzk");
 		editTextList.get(1).sendKeys("111");

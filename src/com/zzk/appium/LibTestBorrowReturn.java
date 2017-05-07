@@ -24,7 +24,7 @@ import io.appium.java_client.android.AndroidKeyCode;
  * 注意：不要设置APP不重新安装，因为每次重新安装可以恢复到初始的数据库，便于数据库不容易混乱；
  * 但也需要注意，在需要利用更改数据库的测试用例上，要在一个测试用例上实现。
  * @author Administrator
- *
+ * 93.053 seconds (17.5.7)
  */
 public class LibTestBorrowReturn {
 	private AndroidDriver<AndroidElement> driver;
@@ -85,7 +85,7 @@ public class LibTestBorrowReturn {
 			List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
 			System.out.println("recyclerview:"+elRecyclerList.size());
 			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
-			driver.findElement(By.name("确认")).click();
+			driver.findElement(By.name("同意")).click();
 			Thread.sleep(1000);
 		}
 		System.out.println("现在没有书需要管理员处理");
@@ -106,10 +106,10 @@ public class LibTestBorrowReturn {
 	private void loginAdmin() {
 		// TODO Auto-generated method stub
 		//先清除帐号、密码中的Text
-		driver.findElement(By.name("取消")).click();				
+		driver.findElement(By.name("重置")).click();				
 		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
 		textFieldList.get(0).sendKeys("whut");
-		textFieldList.get(1).sendKeys("222");
+		textFieldList.get(1).sendKeys("111");
 		driver.findElementById("rBtnAdmin").click();
 		driver.findElement(By.name("登录")).click();
 	}
@@ -117,7 +117,7 @@ public class LibTestBorrowReturn {
 	private void loginStudent() {
 		// TODO Auto-generated method stub
 		//先清除帐号、密码中的Text
-		driver.findElement(By.name("取消")).click();				
+		driver.findElement(By.name("重置")).click();				
 		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
 		textFieldList.get(0).sendKeys("zzk");
 		textFieldList.get(1).sendKeys("111");

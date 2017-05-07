@@ -25,7 +25,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 /**
  * 主要在管理员界面进行测试
  * @author Administrator
- *
+ * 执行时间：80.596 seconds (17.5.7)
  */
 
 public class LibTestAdmin {
@@ -90,7 +90,8 @@ public class LibTestAdmin {
 		driver.findElement(By.name("学生管理")).click();
 		String asserts = driver.getPageSource();
 		if(asserts.contains("郑志锟")){
-			driver.findElement(By.name("郑志锟")).click();
+			List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
+			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
 			Thread.sleep(5000);
 		}else {
 			System.out.println("没有找到郑志锟");
@@ -114,12 +115,6 @@ public class LibTestAdmin {
 		driver.findElementById("id_manSearchContent").sendKeys("东野圭吾");
 		driver.findElementById("id_manSearchBtn").click();
 		
-		driver.findElementById("id_manSpinnerSearch").click();
-		driver.findElement(By.name("作者")).click();
-		driver.findElementById("id_manSearchContent").click();
-		driver.findElementById("id_manSearchContent").clear();
-		driver.findElementById("id_manSearchContent").sendKeys("东野圭吾");
-		driver.findElementById("id_manSearchBtn").click();
 		MySwipe ms = new MySwipe(driver);
 		ms.swipe("up", 2000, 2);
 		Thread.sleep(1000);
@@ -127,20 +122,20 @@ public class LibTestAdmin {
 		ms.swipe("down", 2000, 2);
 		Thread.sleep(1000);
 		
-		driver.findElementById("id_manSpinnerSearch").click();
-		driver.findElement(By.name("借阅者")).click();
-		driver.findElementById("id_manSearchContent").click();
-		driver.findElementById("id_manSearchContent").clear();
-		driver.findElementById("id_manSearchContent").sendKeys("郑志锟");
-		driver.findElementById("id_manSearchBtn").click();
-		List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
-		String asserts = driver.getPageSource();
-		if(asserts.contains("共找到0条结果")){
-			System.out.println("共找到0条结果");
-		}else{
-			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
-			Thread.sleep(2000);
-		}
+//		driver.findElementById("id_manSpinnerSearch").click();
+//		driver.findElement(By.name("借阅者")).click();
+//		driver.findElementById("id_manSearchContent").click();
+//		driver.findElementById("id_manSearchContent").clear();
+//		driver.findElementById("id_manSearchContent").sendKeys("郑志锟");
+//		driver.findElementById("id_manSearchBtn").click();
+//		List<AndroidElement> elRecyclerList = driver.findElementsByClassName("android.support.v7.widget.RecyclerView");
+//		String asserts = driver.getPageSource();
+//		if(asserts.contains("共找到0条结果")){
+//			System.out.println("共找到0条结果");
+//		}else{
+//			elRecyclerList.get(0).findElementByClassName("android.widget.RelativeLayout").click();
+//			Thread.sleep(2000);
+//		}
 	}
 
 	/**
@@ -148,10 +143,10 @@ public class LibTestAdmin {
 	 */
 	private void loginAdmin(){
 		//先清除帐号、密码中的Text
-		driver.findElement(By.name("取消")).click();				
+		driver.findElement(By.name("重置")).click();				
 		List<AndroidElement> textFieldList = driver.findElementsByClassName("android.widget.EditText"); 
 		textFieldList.get(0).sendKeys("whut");
-		textFieldList.get(1).sendKeys("222");
+		textFieldList.get(1).sendKeys("111");
 		driver.findElementById("rBtnAdmin").click();
 		driver.findElement(By.name("登录")).click();
 	}
